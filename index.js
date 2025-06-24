@@ -1,15 +1,17 @@
 import puppeteer from 'puppeteer';
 
-
-
-console.log("✅ Chrome Executable Path:", await puppeteer.executablePath());
 const launchBrowser = async () => {
   const browser = await puppeteer.launch({
-     executablePath,
     headless: true,
-       args: ['--no-sandbox', '--disable-setuid-sandbox']
-
- 
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--no-zygote',
+      '--single-process'
+    ],
+  executablePath: await puppeteer.executablePath(),
   });
 
   const page = await browser.newPage();
