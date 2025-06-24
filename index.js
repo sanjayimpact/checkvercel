@@ -6,6 +6,7 @@ const executablePath = await computeSystemExecutablePath({
   browser: 'chrome',
   buildId: '137.0.7151.119'
 });
+console.log("✅ Chrome Executable Path:", executablePath);
 const launchBrowser = async () => {
   const browser = await puppeteer.launch({
      executablePath,
