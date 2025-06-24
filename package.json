@@ -13,10 +13,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "postinstall": "npx @puppeteer/browsers install chrome",
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo 'No build step required'",
-    "postinstall": "puppeteer install"
+    "build": "echo 'No build step required'"
   },
   "keywords": [],
   "author": "",

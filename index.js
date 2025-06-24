@@ -1,7 +1,14 @@
 import puppeteer from 'puppeteer';
+import { computeSystemExecutablePath } from '@puppeteer/browsers';
 
+const executablePath = await computeSystemExecutablePath({
+  cacheDir: './.local-browser', // Puppeteer saves it here by default
+  browser: 'chrome',
+  buildId: '137.0.7151.119'
+});
 const launchBrowser = async () => {
   const browser = await puppeteer.launch({
+     executablePath,
     headless: true,
        args: ['--no-sandbox', '--disable-setuid-sandbox']
 
