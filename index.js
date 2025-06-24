@@ -1,12 +1,8 @@
 import puppeteer from 'puppeteer';
-import { computeSystemExecutablePath } from '@puppeteer/browsers';
 
-const executablePath = await computeSystemExecutablePath({
-  cacheDir: './.local-browser', // Puppeteer saves it here by default
-  browser: 'chrome',
-  buildId: '137.0.7151.119'
-});
-console.log("✅ Chrome Executable Path:", executablePath);
+
+
+console.log("✅ Chrome Executable Path:", await puppeteer.executablePath());
 const launchBrowser = async () => {
   const browser = await puppeteer.launch({
      executablePath,
