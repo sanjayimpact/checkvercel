@@ -1,25 +1,22 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
+import { computeSystemExecutablePath } from '@puppeteer/browsers';
 
-const launchBrowser = async () => {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-gpu',
-      '--no-zygote',
-      '--single-process'
-    ],
-  executablePath: await puppeteer.executablePath(),
-  });
+const executablePath = await computeSystemExecutablePath({
+  browser: 'chrome',
+  buildId: '137.0.7151.119',
+  cacheDir: '.local-browser'
+});
 
-  const page = await browser.newPage();
-  await page.goto('https://www.google.com');
-  const title = await page.title();
-  console.log('✅ Page title:', title);
+console.log("✅ Chrome Executable Path:", executablePath);
 
-  await browser.close();
-};
+const browser = await puppeteer.launch({
+  headless: true,
+  executablePath,
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
+});
 
-launchBrowser();
+const page = await browser.newPage();
+await page.goto('https://www.google.com');
+console.log(await page.title());
+
+await browser.close();
