@@ -1,17 +1,13 @@
 import puppeteer from 'puppeteer-core';
 import { computeSystemExecutablePath } from '@puppeteer/browsers';
 
-const executablePath = await computeSystemExecutablePath({
-  browser: 'chrome',
-  buildId: '137.0.7151.119',
-  cacheDir: '.local-browser'
-});
 
-console.log("✅ Chrome Executable Path:", executablePath);
+
+
 
 const browser = await puppeteer.launch({
   headless: true,
-  executablePath,
+  executablePath:'.local-browser/chrome/linux-139.0.7257.0/chrome-linux64/chrome',
   args: ['--no-sandbox', '--disable-setuid-sandbox']
 });
 
