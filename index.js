@@ -3,15 +3,9 @@ import puppeteer from 'puppeteer';
 const launchBrowser = async () => {
   const browser = await puppeteer.launch({
     headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-gpu',
-      '--no-zygote',
-      '--single-process'
-    ],
-  executablePath: process.env.CHROME_PATH || '/.render/chrome/google-chrome',
+       args: ['--no-sandbox', '--disable-setuid-sandbox']
+
+ 
   });
 
   const page = await browser.newPage();
