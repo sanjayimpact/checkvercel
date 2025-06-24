@@ -1,56 +1,25 @@
-import express from "express";
-import dotenv from "dotenv";
+import puppeteer from 'puppeteer';
 
-dotenv.config();
+const launchBrowser = async () => {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--no-zygote',
+      '--single-process'
+    ],
+   executablePath: process.env.CHROME_PATH || '/.render/chrome/google-chrome',
+  });
 
-const app = express();
+  const page = await browser.newPage();
+  await page.goto('https://www.google.com');
+  const title = await page.title();
+  console.log('✅ Page title:', title);
 
-let chrome = {};
-let puppeteer;
+  await browser.close();
+};
 
-if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-  const chromeAwsLambda = await import("chrome-aws-lambda");
-  const puppeteerCore = await import("puppeteer-core");
-  chrome = chromeAwsLambda.default || chromeAwsLambda;
-  puppeteer = puppeteerCore.default || puppeteerCore;
-} else {
-  const puppeteerModule = await import("puppeteer");
-  puppeteer = puppeteerModule.default || puppeteerModule;
-}
-app.get("/",(req,res)=>{
-res.send('Server is running')
-
-})
-app.get("/api", async (req, res) => {
-  let options = {};
-
-  if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-    options = {
-      args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
-      defaultViewport: chrome.defaultViewport,
-      executablePath: await chrome.executablePath,
-      headless: true,
-      ignoreHTTPSErrors: true,
-    };
-  }
-
-  try {
-    const browser = await puppeteer.launch(options);
-    const page = await browser.newPage();
-    await page.goto("https://www.linkedin.com");
-    const title = await page.title();
-    console.log(title);
-    res.send(title);
-    await browser.close();
-  } catch (err) {
-    console.error("Puppeteer Error:", err);
-    res.status(500).send("Error occurred");
-  }
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server started on port ${PORT}`);
-});
-
-
+launchBrowser();
