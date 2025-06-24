@@ -11,7 +11,7 @@ const launchBrowser = async () => {
       '--no-zygote',
       '--single-process'
     ],
-   executablePath: process.env.CHROME_PATH || '/.render/chrome/google-chrome',
+  executablePath: process.env.CHROME_PATH || '/.render/chrome/google-chrome',
   });
 
   const page = await browser.newPage();
