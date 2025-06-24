@@ -12,8 +12,11 @@ mkdir -p .render/chrome
 # Download Google Chrome stable build
 wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
-# Install it
+# Install Chrome
 apt install -y ./google-chrome-stable_current_amd64.deb
 
-# Copy binary to .render for usage in Puppeteer
+# Copy binary to local path for Puppeteer
 cp /usr/bin/google-chrome .render/chrome/
+
+# Install Node.js dependencies
+npm install
